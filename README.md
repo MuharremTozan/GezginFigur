@@ -1,30 +1,95 @@
-# GezginFigur 3D Showcase
+# 🎨 GezginFigur | 3D Sergi & Dijital Arşiv Platformu
 
-A sleek, modern digital catalog designed specifically for 3D printing creators, mini-painters, and prop makers to showcase their craft without the complexity of a traditional e-commerce storefront.
-
----
-
-## 🌟 Introduction
-
-Many 3D printing hobbyists and professional creators don't operate like a standard retail store. Instead of mass-producing items for immediate checkout, work is often done by commission, custom request, or simply displayed as a portfolio of what is possible.
-
-**GezginFigur** fills this gap. It is a non-transactional showcase platform—meaning **there is no shopping cart or payment gateway**. Instead, it acts as a premium digital gallery where visitors can browse finished prints, examine specific printing details, and appreciate the craftsmanship, while the creator retains complete control over the collection via a secure administrative backend.
+**GezginFigur**, 3D baskı çalışmalarınızı, el boyaması minyatürlerinizi ve özel koleksiyon figürlerinizi sergilemek ve yönetmek için tasarlanmış, **cam kırılımlı (glassmorphism) koyu mod arayüze** sahip dinamik bir dijital sergi platformudur.
 
 ---
 
-## ✨ Key Features
+## 🚀 Canlı Yayın (Deployment)
 
-### 🎨 The Public Showcase
-*   **Immersive Catalog:** A clean, visually-driven grid layout to display 3D figurines, miniatures, and prints.
-*   **Detailed Product Profiles:** Dedicated pages for each item highlighting high-resolution images and design descriptions.
-*   **Smart Filtering:** Visitors can easily filter the gallery by category, size, or style to find exactly what they are looking for.
+Uygulamanın canlı ortam dağıtımı aşağıdaki servisler üzerinde yapılandırılmıştır:
 
-### 🛡️ Administrative Control
-*   **Secure Creator Dashboard:** A protected login area exclusively for the shop owner.
-*   **Effortless Inventory Management:** Easily add new prints, update existing descriptions, or remove old work from the catalog through intuitive forms.
+*   **Frontend:** **Vercel** (Vite + React build çıktıları sıfır gecikmeyle sunulur)
+*   **Backend:** **Render** (Node.js/NestJS Web Service)
+*   **Veritabanı:** **MongoDB Atlas** (Bulut NoSQL Veritabanı)
+*   **Medya Sunucusu:** **Cloudinary CDN** (Optimize görsel depolama ve otomatik temizleme)
 
 ---
 
-## 📄 License
+## 🌟 Temel Özellikler
 
-This project is open-source and available under the MIT License.
+### 🖼️ Kamu Sergi Alanı (Ziyaretçi Arayüzü)
+*   **Dinamik Sergi Galerisi:** Koyu mod odaklı modern grid yerleşimi.
+*   **Akıllı Filtreleme:** Sol menüde her koleksiyona ait anlık figür sayılarıyla tematik süzme.
+*   **Detay Modalı:** Gramaj bilgisi, stok durumu, değer/fiyat ve yüksek çözünürlüklü görsel gösterimi.
+
+### 🛡️ Yönetim Paneli (Admin Dashboard)
+*   **GitHub OAuth2:** Şifresiz, tek tıkla güvenli admin girişi.
+*   **HTTP-Only JWT Cookie:** XSS saldırılarına karşı tam korumalı çerez tabanlı oturum yönetimi.
+*   **Dinamik Rol Yetkilendirme:** Sadece `.env` dosyasında tanımlı `GITHUB_ADMIN_USERNAME` kullanıcısı `admin` yetkisine sahip olur; diğer tüm kullanıcılar salt okunur (`user`) moddadır.
+*   **İlişkisel CRUD:** Figür, koleksiyon ve çoklu ilişki yönetimi (Mongoose Population).
+*   **Filament Stok Takibi:** Renk adı, Hex önizleme kodu ve gramaj bazlı stok yönetimi.
+
+---
+
+## 🛠️ Teknoloji Yığını
+
+*   **Frontend:** React 18, TypeScript, Vite, Vanilla CSS, Lucide Icons
+*   **Backend:** NestJS 10, TypeScript, Mongoose ODM, Passport.js
+*   **Güvenlik:** JWT, Cookie-Parser, NestJS Guards (Jwt & Admin Role Guards)
+
+---
+
+## 📁 Proje Yapısı
+
+```tree
+GezginFigur/
+├── backend/                      # NestJS API Sunucusu
+│   ├── src/
+│   │   ├── auth/                 # OAuth2 & JWT Stratejileri ve Guards
+│   │   ├── collections/          # Koleksiyon Modülü
+│   │   ├── figures/              # Figür Modülü
+│   │   ├── filament-colors/      # Filament Stok Modülü
+│   │   ├── upload/               # Cloudinary Görsel Yönetim Servisi
+│   │   └── users/                # Kullanıcı Modülü (Rol Belirleme)
+├── frontend/                     # React + Vite Arayüzü
+│   ├── src/
+│   │   ├── components/           # AdminDashboard, DetailModal, Sidebar vb.
+│   │   ├── context/              # AuthContext (Oturum Yönetimi)
+│   │   ├── services/             # api.ts (Axios Entegrasyonu)
+│   │   └── App.tsx               # Ana Görünüm Yönlendirici
+└── start.sh                      # Tek tuşla sistemi yerelde başlatan script
+```
+
+---
+
+## ⚙️ Hızlı Başlangıç (Yerel Çalıştırma)
+
+### 1. Backend Kurulumu
+```bash
+cd backend
+npm install
+cp .env.example .env
+# .env dosyasını doldurun (MongoDB, GitHub OAuth ve Cloudinary API anahtarları)
+npm run start:dev
+```
+
+### 2. Frontend Kurulumu
+```bash
+cd frontend
+npm install
+npm run dev
+# Arayüz http://localhost:5173 adresinde açılacaktır.
+```
+
+### 3. Kolay Başlatma (Linux)
+Kök dizindeki script ile tüm servisleri otomatik başlatabilirsiniz:
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+---
+
+## 📄 Lisans
+
+Bu proje **MIT Lisansı** altında lisanslanmıştır.
