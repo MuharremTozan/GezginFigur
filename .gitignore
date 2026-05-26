@@ -1,0 +1,7 @@
+# Local workspace scripts
+start.sh
+tabs.conf
+
+#AI
+.agents/
+.antigravitycli/
